@@ -278,9 +278,9 @@ export default function Navbar() {
                     <a href="">Keamanan akun</a>
                   </div>
                   <hr className="my-2" />
-                  <a href="" className="text-red-600" onClick={logoutHandler}>
+                  <span className="text-red-600 cursor-pointer" onClick={logoutHandler}>
                     Logout
-                  </a>
+                  </span>
                 </div>
               )}
             </div>

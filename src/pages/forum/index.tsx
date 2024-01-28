@@ -4,6 +4,8 @@ import CreateThreadModal from "@/components/CreateThreadModal";
 import Layout from "@/components/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRecoilValue } from "recoil";
+import searchAtom from "@/atoms/searchAtom";
 
 interface Thread {
   createdAt: string;
@@ -28,11 +30,13 @@ export default function Home() {
   const [threads, setThreads] = useState<Thread[]>([]);
   const [userId, setUserId] = useState("");
 
+  const searchParams = useRecoilValue(searchAtom);
+
   useEffect(() => {
     const loading = toast.loading("Loading...");
-    setLoading(true);
+    setLoading(true);    
     axios
-      .get(process.env.NEXT_PUBLIC_API_URL + "/threads")
+      .get(process.env.NEXT_PUBLIC_API_URL + "/threads?search=" + searchParams)
       .then((res) => {
         toast.update(loading, {
           render: "Success",
@@ -63,7 +67,7 @@ export default function Home() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchUserId = async () => {

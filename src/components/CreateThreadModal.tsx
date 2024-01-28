@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PrimaryButton from "./PrimaryButton";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 interface Props {
   onConfirm: () => void;
@@ -29,7 +30,7 @@ export default function ConfirmModal({ onConfirm = () => {}, onCancel = () => {}
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         }
       );

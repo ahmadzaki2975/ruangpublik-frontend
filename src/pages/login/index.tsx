@@ -1,7 +1,6 @@
 import BackToHome from "@/components/BackToHome";
 import { InputComponent, InputPassword } from "@/components/Form/InputField";
 import SubmitButton from "@/components/Form/SubmitButton";
-// import GoogleLoginButton from "@/components/GoogleLogin";
 import LoadingButton from "@/components/LoadingButton";
 
 import axios from "axios";
@@ -11,6 +10,7 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 interface LoginFormInput {
   email: string;
@@ -57,7 +57,7 @@ export default function LoginPage() {
       const res = await axios.post("http://localhost:5000/auth/login", input);
       if (res.status === 200) {
         setIsLoading(false);
-        localStorage.setItem("access_token", res.data.message);
+        Cookies.set("accessToken", res.data.message);
         toast.update(loading, {
           render: "Login berhasil!",
           type: "success",
@@ -121,14 +121,14 @@ export default function LoginPage() {
         <div className="text-center mt-9 mb-3 text-neutral-700">
           <p>
             Belum mendaftar?
-            <a href="http://localhost:3000/signup">
+            <a href={`${process.env.NEXT_PUBLIC_BASE_URL}/signup`}>
               <span className="text-blue-500 font-bold">&nbsp;Buat akun</span>
             </a>
           </p>
           <p>atau masuk dengan</p>
         </div>
         <div className="bg-neutral-100 p-3 rounded-lg cursor-pointer">
-          <a href="http://localhost:5000/auth/google" className="text-secondary-800">
+          <a href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`} className="text-secondary-800">
             <FcGoogle size="1.75rem" />
           </a>
         </div>

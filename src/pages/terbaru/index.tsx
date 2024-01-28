@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
 import searchAtom from "@/atoms/searchAtom";
+import Cookies from "js-cookie";
 
 interface Thread {
   createdAt: string;
@@ -37,7 +38,7 @@ export default function TerbaruPage() {
       try {
         const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         });
 

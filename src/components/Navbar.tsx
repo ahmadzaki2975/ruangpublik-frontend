@@ -1,14 +1,15 @@
 import Logo from "@/../public/Logo.png";
+import Account from "@/../public/svgs/account.svg";
+import searchAtom from "@/atoms/searchAtom";
+
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
-import Account from "@/../public/svgs/account.svg";
-import searchAtom from "@/atoms/searchAtom";
-import axios from "axios";
 import { MdNotifications } from "react-icons/md";
 import { useSetRecoilState } from "recoil";
+import Cookies from "js-cookie";
 
 interface MenuLinkProps {
   label: string;
@@ -66,14 +67,21 @@ export default function Navbar() {
 
   const setSearchParams = useSetRecoilState(searchAtom);
 
-  const LogoutHandler = () => {
-    localStorage.removeItem("access_token");
-    setIsLogged(false);
-    router.push("/");
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`);
+      if (res.status === 200) {
+        Cookies.remove("accessToken");
+        setIsLogged(false);
+        router.push("/login");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const checkLogin = () => {
-    if (localStorage.getItem("access_token")) {
+    if (Cookies.get("accessToken")) {
       setIsLogged(true);
     }
   };
@@ -89,7 +97,7 @@ export default function Navbar() {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         });
         setProfile(response.data.data);
@@ -104,7 +112,7 @@ export default function Navbar() {
           `${process.env.NEXT_PUBLIC_API_URL}/users/notification?limit=5`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              Authorization: `Bearer ${Cookies.get("accessToken")}`,
             },
           }
         );
@@ -270,7 +278,7 @@ export default function Navbar() {
                     <a href="">Keamanan akun</a>
                   </div>
                   <hr className="my-2" />
-                  <a href="" className="text-red-600" onClick={LogoutHandler}>
+                  <a href="" className="text-red-600" onClick={logoutHandler}>
                     Logout
                   </a>
                 </div>
@@ -286,7 +294,7 @@ export default function Navbar() {
             </Link>
             <button
               className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white"
-              onClick={LogoutHandler}
+              onClick={logoutHandler}
             >
               Logout
             </button>

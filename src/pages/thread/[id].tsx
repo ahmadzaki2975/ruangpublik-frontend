@@ -4,6 +4,7 @@ import axios from "axios";
 import Thread from "../../components/Thread";
 import { toast } from "react-toastify";
 import Layout from "@/components/Layout";
+import Cookies from "js-cookie";
 
 interface Thread {
   userId: string;
@@ -34,14 +35,11 @@ export default function ThreadPage() {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/users`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
+        const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        });
 
         setUserId(userResponse.data.data.id);
       } catch (error) {

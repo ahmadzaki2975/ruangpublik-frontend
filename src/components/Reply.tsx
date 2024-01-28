@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import PostDateFormat from "./PostDateFormat";
 
@@ -42,7 +43,7 @@ export default function Reply(props: Thread) {
         { upvote: true },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
             "Content-Type": "application/json",
           },
         }
@@ -65,7 +66,7 @@ export default function Reply(props: Thread) {
         { upvote: false },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
             "Content-Type": "application/json",
           },
         }

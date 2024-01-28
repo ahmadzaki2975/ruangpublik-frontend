@@ -4,6 +4,7 @@ import { NIKVerificationStatus } from "@/enums/enum";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 interface UserProfile {
   id: string;
@@ -109,7 +110,7 @@ export default function ProfilePage() {
     }
 
     try {
-      const accessToken = localStorage.getItem("access_token");
+      const accessToken = Cookies.get("accessToken");
 
       let data: UserFormInput = {
         fullname: input.fullname,
@@ -144,7 +145,7 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
+    const accessToken = Cookies.get("accessToken");
 
     const getUserData = async () => {
       try {

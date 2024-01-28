@@ -190,14 +190,14 @@ export default function SignupPage() {
         <div className="text-center mt-9 mb-3">
           <p>
             Sudah punya akun?
-            <a href="http://localhost:3000/login">
+            <a href={`${process.env.NEXT_PUBLIC_BASE_URL}/login`}>
               <span className="text-blue-500 font-bold">&nbsp;Masuk</span>
             </a>
           </p>
           <p>atau daftar dengan</p>
         </div>
         <div className="bg-neutral-100 p-3 rounded-lg cursor-pointer">
-          <a href="http://localhost:5000/auth/google">
+          <a href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`}>
             <FcGoogle size="1.75rem" />
           </a>
         </div>

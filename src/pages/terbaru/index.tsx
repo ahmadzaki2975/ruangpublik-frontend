@@ -4,6 +4,8 @@ import CreateThreadModal from "@/components/CreateThreadModal";
 import Layout from "@/components/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRecoilValue } from "recoil";
+import searchAtom from "@/atoms/searchAtom";
 
 interface Thread {
   createdAt: string;
@@ -28,17 +30,16 @@ export default function TerbaruPage() {
   const [threads, setThreads] = useState<Thread[]>([]);
   const [userId, setUserId] = useState("");
 
+  const searchParams = useRecoilValue(searchAtom);
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/users`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
+        const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
 
         setUserId(userResponse.data.data.id);
       } catch (error) {
@@ -53,8 +54,10 @@ export default function TerbaruPage() {
     const loadingToast = toast.loading("Loading...");
     setLoading(true);
 
+    console.log("kepanggil");
+
     axios
-      .get(process.env.NEXT_PUBLIC_API_URL + "/threads")
+      .get(process.env.NEXT_PUBLIC_API_URL + "/threads" + "?search=" + searchParams)
       .then((res) => {
         toast.update(loadingToast, {
           render: "Success",
@@ -68,9 +71,7 @@ export default function TerbaruPage() {
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
 
-        const rootThreads = sortedThreads.filter(
-          (thread: Thread) => !thread.parents.length
-        );
+        const rootThreads = sortedThreads.filter((thread: Thread) => !thread.parents.length);
 
         setThreads(rootThreads);
       })
@@ -94,22 +95,17 @@ export default function TerbaruPage() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [searchParams]);
 
   return (
     <>
       {isModalOpen && (
-        <CreateThreadModal
-          onConfirm={() => {}}
-          onCancel={() => setIsModalOpen(false)}
-        />
+        <CreateThreadModal onConfirm={() => {}} onCancel={() => setIsModalOpen(false)} />
       )}
       <Layout>
         <div className="w-full flex gap-3 items-center bg-white p-5 min-w-[200px] text shadow-md rounded-[12px] text-neutral-900">
           <div className="size-[44px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
-          <button
-            className="relative w-full h-full"
-            onClick={() => setIsModalOpen(true)}>
+          <button className="relative w-full h-full" onClick={() => setIsModalOpen(true)}>
             <div className="outline outline-1 outline-neutral-300 w-full py-1 px-4 rounded-full text-neutral-600 h-full flex items-center transition duration-200 cursor-pointer hover:bg-neutral-200 active:bg-white select-none">
               Suarakan pendapatmu disini...
             </div>

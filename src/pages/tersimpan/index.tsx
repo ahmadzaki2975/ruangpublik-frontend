@@ -4,6 +4,8 @@ import CreateThreadModal from "@/components/CreateThreadModal";
 import Layout from "@/components/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRecoilValue } from "recoil";
+import searchAtom from "@/atoms/searchAtom";
 
 interface Thread {
   createdAt: string;
@@ -28,17 +30,16 @@ export default function TersimpanPage() {
   const [bookmarkedThreads, setBookmarkedThreads] = useState<Thread[]>([]);
   const [userId, setUserId] = useState("");
 
+  const searchParams = useRecoilValue(searchAtom);
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/users`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
+        const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
 
         setUserId(userResponse.data.data.id);
       } catch (error) {
@@ -55,8 +56,8 @@ export default function TersimpanPage() {
 
     const fetchUserData = async () => {
       try {
-        const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/users`,
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/users/bookmark?search=${searchParams}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -64,19 +65,7 @@ export default function TersimpanPage() {
           }
         );
 
-        const userId = userResponse.data.data.id;
-
-        const threadsResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/threads`
-        );
-
-        const allThreads = threadsResponse.data.data;
-
-        const bookmarked = allThreads.filter((thread: Thread) =>
-          thread.bookmarks.includes(userId)
-        );
-
-        setBookmarkedThreads(bookmarked);
+        setBookmarkedThreads(response.data.data);
 
         toast.update(loadingToast, {
           render: "Success",
@@ -105,15 +94,12 @@ export default function TersimpanPage() {
       }
     };
     fetchUserData();
-  }, []);
+  }, [searchParams]);
 
   return (
     <>
       {isModalOpen && (
-        <CreateThreadModal
-          onConfirm={() => {}}
-          onCancel={() => setIsModalOpen(false)}
-        />
+        <CreateThreadModal onConfirm={() => {}} onCancel={() => setIsModalOpen(false)} />
       )}
       <Layout>
         {!loading &&

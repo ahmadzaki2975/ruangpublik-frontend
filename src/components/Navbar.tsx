@@ -61,7 +61,9 @@ export default function Navbar() {
   const [showNotif, setShowNotif] = useState(false);
   const [input, setInput] = useState("");
 
-  const isInHomepage = router.pathname === "/";
+  const searchPage = ["/forum", "/tersimpan", "/terbaru"];
+  const isSearchPage = searchPage.includes(router.pathname);
+
   const setSearchParams = useSetRecoilState(searchAtom);
 
   const LogoutHandler = () => {
@@ -77,15 +79,9 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    if (router.query.search) {
-      setInput(router.query.search as string);
-      setSearchParams(router.query.search as string);
-    }
-  }, [router.query]);
-
-  useEffect(() => {
     checkLogin();
     setActivePage(router.pathname);
+    setInput("");
   }, [router.pathname]);
 
   useEffect(() => {
@@ -132,6 +128,15 @@ export default function Navbar() {
   };
 
   useEffect(() => {
+    if (router.query.search) {
+      setInput(router.query.search as string);
+      setSearchParams(router.query.search as string);
+    }
+  }, [router.query]);
+
+  useEffect(() => {
+    if (!isSearchPage) return;
+
     const timeout = setTimeout(() => {
       changeURLParams();
     }, 500);
@@ -174,7 +179,7 @@ export default function Navbar() {
         <Image src={Logo} alt="Logo Ruang Publik" className="w-[90px] lg:w-[105px]" />
       </Link>
 
-      {!isInHomepage && (
+      {isSearchPage && (
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -218,21 +223,7 @@ export default function Navbar() {
 
       {/* if isLoggedin, then don't show login button */}
       {isLogged ? (
-        isInHomepage ? (
-          <div className="hidden md:flex">
-            <Link href="/forum">
-              <button className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white mr-4">
-                Forum
-              </button>
-            </Link>
-            <button
-              className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white"
-              onClick={LogoutHandler}
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
+        isSearchPage ? (
           <div className="relative hidden md:flex md:items-center md:gap-x-3 md:pr-2 ">
             <div className="relative">
               <div
@@ -285,6 +276,20 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+          </div>
+        ) : (
+          <div className="hidden md:flex">
+            <Link href="/forum">
+              <button className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white mr-4">
+                Forum
+              </button>
+            </Link>
+            <button
+              className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white"
+              onClick={LogoutHandler}
+            >
+              Logout
+            </button>
           </div>
         )
       ) : (

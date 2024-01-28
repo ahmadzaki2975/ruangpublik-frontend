@@ -7,6 +7,7 @@ interface InputProps {
   type?: string;
   value: string;
   placeholder: string;
+  disabled?: boolean;
   error?: string;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -26,6 +27,7 @@ export const InputComponent: React.FC<InputProps> = ({
   value,
   placeholder,
   error,
+  disabled = false,
   handleInputChange,
 }) => {
   return (
@@ -39,6 +41,7 @@ export const InputComponent: React.FC<InputProps> = ({
         name={name}
         value={value}
         placeholder={placeholder}
+        disabled={disabled}
         className={`${
           error ? "border-red-500" : "border-neutral-300"
         } w-full h-12 px-4 border  rounded-lg focus:outline-none `}

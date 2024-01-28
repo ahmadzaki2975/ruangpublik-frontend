@@ -180,7 +180,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="relative mt-32 max-w-[1500px] mx-auto px-4">
+    <div className="relative mt-32 max-w-[1500px] mx-auto px-4 pb-10">
       <form className="w-full bg-white p-4 rounded-xl" onSubmit={handleSaveProfile}>
         <div className="flex justify-between items-start">
           <div>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import PostDateFormat from "./PostDateFormat";
 
 interface Thread {
@@ -117,7 +117,7 @@ export default function Reply(props: Thread) {
                   ? "text-blue-500 outline-blue-300 bg-blue-200 hover:bg-blue-300"
                   : "text-neutral-500 hover:bg-neutral-300 outline-neutral-300 bg-neutral-200"
               } `}
-              onClick={handleUpvote}
+              onClick={(e: MouseEvent) => handleUpvote(e)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

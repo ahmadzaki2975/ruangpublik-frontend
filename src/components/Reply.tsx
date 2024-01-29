@@ -17,7 +17,7 @@ interface Thread {
   };
   replies: string[];
   upvotes: string[];
-  handleRefetch: () => void;
+
   bookmarks: string[];
   downvotes: string[];
   __v: number;
@@ -75,7 +75,6 @@ export default function Reply(props: Thread) {
         }
       );
       console.log("Downvote successful", response.data);
-      props.handleRefetch();
     } catch (error) {
       console.error("Error while downvoting", error);
     }

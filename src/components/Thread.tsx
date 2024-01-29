@@ -328,6 +328,7 @@ export default function Thread(props: Thread) {
                       autoClose: 3000,
                     });
                     setComment("");
+                    setTrigger((prev) => !prev);
                     router.push(`/thread/${props._id}`);
                   })
                   .catch((err: unknown) => {
@@ -388,7 +389,6 @@ export default function Thread(props: Thread) {
                 key={reply._id}
                 _id={reply._id}
                 userId={props.userId}
-                handleRefetch={() => setTrigger((prev) => !prev)}
                 parents={reply.parents}
                 poster={reply.poster}
                 title={reply.title}

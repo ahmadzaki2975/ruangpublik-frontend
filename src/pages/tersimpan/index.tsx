@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CreateThreadModal from "@/components/CreateThreadModal";
 import Layout from "@/components/Layout";
 import axios from "axios";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
 import searchAtom from "@/atoms/searchAtom";
 import Cookies from "js-cookie";
@@ -52,7 +52,7 @@ export default function TersimpanPage() {
   }, []);
 
   useEffect(() => {
-    const loadingToast = toast.loading("Loading...");
+    // const loadingToast = toast.loading("Loading...");
     setLoading(true);
 
     const fetchUserData = async () => {
@@ -68,27 +68,27 @@ export default function TersimpanPage() {
 
         setBookmarkedThreads(response.data.data);
 
-        toast.update(loadingToast, {
-          render: "Success",
-          type: "success",
-          isLoading: false,
-          autoClose: 3000,
-        });
+        // toast.update(loadingToast, {
+        //   render: "Success",
+        //   type: "success",
+        //   isLoading: false,
+        //   autoClose: 3000,
+        // });
       } catch (error) {
         if (error instanceof Error) {
-          toast.update(loadingToast, {
-            render: error.message,
-            type: "error",
-            isLoading: false,
-            autoClose: 3000,
-          });
+          // toast.update(loadingToast, {
+          //   render: error.message,
+          //   type: "error",
+          //   isLoading: false,
+          //   autoClose: 3000,
+          // });
         } else {
-          toast.update(loadingToast, {
-            render: "Unknown error",
-            type: "error",
-            isLoading: false,
-            autoClose: 3000,
-          });
+          // toast.update(loadingToast, {
+          //   render: "Unknown error",
+          //   type: "error",
+          //   isLoading: false,
+          //   autoClose: 3000,
+          // });
         }
       } finally {
         setLoading(false);

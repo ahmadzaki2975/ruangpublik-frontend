@@ -64,6 +64,7 @@ export default function Navbar() {
   const [input, setInput] = useState("");
 
   const searchPage = ["/forum", "/tersimpan", "/terbaru"];
+  const hiddenSearch = router.pathname.includes("/thread");
   const isSearchPage = searchPage.includes(router.pathname);
 
   const setSearchParams = useSetRecoilState(searchAtom);
@@ -232,7 +233,7 @@ export default function Navbar() {
 
       {/* if isLoggedin, then don't show login button */}
       {isLogged ? (
-        isSearchPage ? (
+        isSearchPage || hiddenSearch ? (
           <div className="relative hidden md:flex md:items-center md:gap-x-3 md:pr-2 ">
             <div className="relative">
               <div
@@ -288,7 +289,7 @@ export default function Navbar() {
               )}
             </div>
           </div>
-        ) : (
+        ) : hiddenSearch ? null : (
           <div className="hidden md:flex">
             <Link href="/forum">
               <button className="rounded-full bg-blue-500 px-6 py-[6px] font-semibold text-white mr-4">

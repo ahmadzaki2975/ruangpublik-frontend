@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const cookies = request.cookies;
 
   if (authPage.includes(request.nextUrl.pathname)) {
-    if (cookies) {
+    if (cookies.get("accessToken")) {
       return NextResponse.redirect(`${request.nextUrl.origin}/forum`);
     }
   }

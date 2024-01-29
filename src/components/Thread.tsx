@@ -33,6 +33,7 @@ export default function Thread(props: Thread) {
   const [comment, setComment] = useState("");
   const [showReply, setShowReply] = useState(false);
   const [replies, setReplies] = useState<Thread[]>([]);
+  const [trigger, setTrigger] = useState(false);
 
   const [upvoted, setUpvoted] = useState(props.upvotes.includes(props.userId));
   const [downvoted, setDownvoted] = useState(props.downvotes.includes(props.userId));
@@ -67,7 +68,7 @@ export default function Thread(props: Thread) {
     };
 
     fetchReplies();
-  }, [props._id]);
+  }, [props._id, trigger]);
 
   const handleUpvote = async () => {
     setUpvoted(!upvoted);
@@ -387,6 +388,7 @@ export default function Thread(props: Thread) {
                 key={reply._id}
                 _id={reply._id}
                 userId={props.userId}
+                handleRefetch={() => setTrigger((prev) => !prev)}
                 parents={reply.parents}
                 poster={reply.poster}
                 title={reply.title}

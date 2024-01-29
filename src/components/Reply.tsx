@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import PostDateFormat from "./PostDateFormat";
 
@@ -16,12 +17,14 @@ interface Thread {
   };
   replies: string[];
   upvotes: string[];
+  handleRefetch: () => void;
   bookmarks: string[];
   downvotes: string[];
   __v: number;
 }
 
 export default function Reply(props: Thread) {
+  const router = useRouter();
   const [upvoted, setUpvoted] = useState(props.upvotes.includes(props.userId));
   const [downvoted, setDownvoted] = useState(props.downvotes.includes(props.userId));
   const [upvoteCount, setUpvoteCount] = useState(props.upvotes.length ?? 0);
@@ -72,6 +75,7 @@ export default function Reply(props: Thread) {
         }
       );
       console.log("Downvote successful", response.data);
+      props.handleRefetch();
     } catch (error) {
       console.error("Error while downvoting", error);
     }
@@ -80,7 +84,10 @@ export default function Reply(props: Thread) {
   return (
     <>
       <div className="w-full h-[1px] bg-neutral-200 my-4"></div>
-      <div className="flex flex-col gap-4">
+      <div
+        className="flex flex-col gap-4"
+        onClick={() => router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/thread/${props._id}`)}
+      >
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
             <div className="flex flex-col gap-1">

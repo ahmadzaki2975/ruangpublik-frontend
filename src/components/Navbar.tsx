@@ -30,6 +30,7 @@ interface Notification {
   sender: {
     username: string;
   };
+  threadId: string;
 }
 
 const MenuLink = (props: MenuLinkProps) => {
@@ -247,10 +248,12 @@ export default function Navbar() {
                 <div className="absolute min-w-[180px] top-14 right-1 bg-white rounded-lg border text-xs">
                   {notifications.length > 0 ? (
                     notifications.map((notification) => (
-                      <div className="border-b last:border-none py-2 px-2 w-[300px] text-[14px]">
-                        <span className="font-bold">{notification.sender.username}</span>&nbsp;
-                        <span>{parseNotificationMessage(notification.type)}</span>
-                      </div>
+                      <a href={`/thread/${notification.threadId}`}>
+                        <div className="border-b last:border-none py-2 px-2 w-[300px] text-[14px]">
+                          <span className="font-bold">{notification.sender.username}</span>&nbsp;
+                          <span>{parseNotificationMessage(notification.type)}</span>
+                        </div>
+                      </a>
                     ))
                   ) : (
                     <p className="text-base px-2 min-w-[180px] min-h-[120px] grid place-content-center">

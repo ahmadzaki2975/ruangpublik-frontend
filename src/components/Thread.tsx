@@ -41,7 +41,6 @@ export default function Thread(props: Thread) {
 
   const [upvoteCount, setUpvoteCount] = useState(props.upvotes.length ?? 0);
   const [bookmarkCount, setBookmarkCount] = useState(props.bookmarks.length ?? 0);
-  
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

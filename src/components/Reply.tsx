@@ -29,7 +29,8 @@ export default function Reply(props: Thread) {
   const [downvoted, setDownvoted] = useState(props.downvotes.includes(props.userId));
   const [upvoteCount, setUpvoteCount] = useState(props.upvotes.length ?? 0);
 
-  const handleUpvote = async () => {
+  const handleUpvote = async (e: MouseEvent) => {
+    e.stopPropagation();
     setUpvoted(!upvoted);
     if (downvoted) {
       setDownvoted(false);
@@ -57,7 +58,8 @@ export default function Reply(props: Thread) {
     }
   };
 
-  const handleDownvote = async () => {
+  const handleDownvote = async (e: MouseEvent) => {
+    e.stopPropagation();
     if (upvoted) {
       setUpvoted(false);
       setUpvoteCount((prev) => prev - 1);

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CreateThreadModal from "@/components/CreateThreadModal";
 import Layout from "@/components/Layout";
 import axios from "axios";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
 import searchAtom from "@/atoms/searchAtom";
 import Cookies from "js-cookie";
@@ -34,35 +34,35 @@ export default function Home() {
   const searchParams = useRecoilValue(searchAtom);
 
   useEffect(() => {
-    const loading = toast.loading("Loading...");
+    // const loading = toast.loading("Loading...");
     setLoading(true);
     axios
       .get(process.env.NEXT_PUBLIC_API_URL + "/threads?search=" + searchParams)
       .then((res) => {
-        toast.update(loading, {
-          render: "Success",
-          type: "success",
-          isLoading: false,
-          autoClose: 3000,
-        });
-        console.log(res.data.data);
+        // toast.update(loading, {
+        //   render: "Success",
+        //   type: "success",
+        //   isLoading: false,
+        //   autoClose: 3000,
+        // });
+        // console.log(res.data.data);
         setThreads(res.data.data.filter((thread: Thread) => !thread.parents.length));
       })
       .catch((err: unknown) => {
         if (err instanceof Error) {
-          toast.update(loading, {
-            render: err.message,
-            type: "error",
-            isLoading: false,
-            autoClose: 3000,
-          });
+          // toast.update(loading, {
+          //   render: err.message,
+          //   type: "error",
+          //   isLoading: false,
+          //   autoClose: 3000,
+          // });
         } else {
-          toast.update(loading, {
-            render: "Unknown error",
-            type: "error",
-            isLoading: false,
-            autoClose: 3000,
-          });
+          // toast.update(loading, {
+          //   render: "Unknown error",
+          //   type: "error",
+          //   isLoading: false,
+          //   autoClose: 3000,
+          // });
         }
       })
       .finally(() => {

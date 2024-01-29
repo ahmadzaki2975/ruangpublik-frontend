@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
@@ -51,30 +51,30 @@ export default function LoginPage() {
     if (!input.email || !input.password) return;
 
     setIsLoading(true);
-    const loading = toast.loading("Memproses login...");
+    // const loading = toast.loading("Memproses login...");
 
     try {
       const res = await axios.post("http://localhost:5000/auth/login", input);
       if (res.status === 200) {
         setIsLoading(false);
         Cookies.set("accessToken", res.data.message);
-        toast.update(loading, {
-          render: "Login berhasil!",
-          type: "success",
-          isLoading: false,
-          autoClose: 1500,
-        });
+        // toast.update(loading, {
+        //   render: "Login berhasil!",
+        //   type: "success",
+        //   isLoading: false,
+        //   autoClose: 1500,
+        // });
         router.push("/forum");
       }
     } catch (error) {
       console.error(error);
       setIsLoading(false);
-      toast.update(loading, {
-        render: "Login gagal!",
-        type: "error",
-        isLoading: false,
-        autoClose: 1500,
-      });
+      // toast.update(loading, {
+      //   render: "Login gagal!",
+      //   type: "error",
+      //   isLoading: false,
+      //   autoClose: 1500,
+      // });
     }
   };
 

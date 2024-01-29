@@ -100,6 +100,7 @@ export const InputPassword: React.FC<InputPropsWithToggle> = ({
   placeholder,
   error,
   handleInputChange,
+  disabled = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -122,6 +123,7 @@ export const InputPassword: React.FC<InputPropsWithToggle> = ({
             error ? "border-red-500" : "border-neutral-300"
           } w-full h-12 px-4 border  rounded-lg focus:outline-none `}
           onChange={handleInputChange}
+          disabled={disabled}
         />
         {showPassword ? (
           <Icon

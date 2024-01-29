@@ -1,9 +1,10 @@
-import { InputComponent } from "@/components/Form/InputField";
+import { InputComponent, InputPassword } from "@/components/Form/InputField";
 import SubmitButton from "@/components/Form/SubmitButton";
 import { NIKVerificationStatus } from "@/enums/enum";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 import Cookies from "js-cookie";
 
 interface UserProfile {
@@ -241,12 +242,14 @@ export default function ProfilePage() {
             handleInputChange={handleInput}
             disabled={!onEdit}
           />
-          <InputComponent
+          <InputPassword
             id="nikCode"
-            type="text"
+            type="password"
             name="Nomor Induk Kependudukan"
             value={input.nikCode}
             placeholder="Isi dengan NIK Anda"
+            icon={BsEye}
+            secondaryIcon={BsEyeSlash}
             error={errors.nikCode}
             handleInputChange={handleInput}
             disabled={!onEdit || !allowEditNIK || input.status === NIKVerificationStatus.PENDING}

@@ -108,7 +108,7 @@ export default function TerbaruPage() {
           <div className="size-[44px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
           <button className="relative w-full h-full" onClick={() => setIsModalOpen(true)}>
             <div className="outline outline-1 outline-neutral-300 w-full py-1 px-4 rounded-full text-neutral-600 h-full flex items-center transition duration-200 cursor-pointer hover:bg-neutral-200 active:bg-white select-none">
-              Suarakan pendapatmu disini...
+              Suarakan RUU disini...
             </div>
           </button>
         </div>
@@ -127,6 +127,7 @@ export default function TerbaruPage() {
               poster={thread.poster}
               title={thread.title}
               userId={userId}
+              isAdmin={false}
               content={thread.content}
               createdAt={thread.createdAt}
               upvotes={thread.upvotes}

@@ -30,6 +30,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [threads, setThreads] = useState<Thread[]>([]);
   const [userId, setUserId] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const searchParams = useRecoilValue(searchAtom);
 
@@ -80,6 +81,7 @@ export default function Home() {
         });
 
         setUserId(userResponse.data.data.id);
+        setIsAdmin(userResponse.data.data.role === "admin");
       } catch (error) {
         console.error("Error fetching thread data", error);
       }
@@ -94,14 +96,16 @@ export default function Home() {
         <CreateThreadModal onConfirm={() => {}} onCancel={() => setIsModalOpen(false)} />
       )}
       <Layout>
-        <div className="w-full flex gap-3 items-center bg-white p-5 min-w-[200px] text shadow-md rounded-[12px] text-neutral-900">
-          <div className="size-[44px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
-          <button className="relative w-full h-full" onClick={() => setIsModalOpen(true)}>
-            <div className="outline outline-1 outline-neutral-300 w-full py-1 px-4 rounded-full text-neutral-600 h-full flex items-center transition duration-200 cursor-pointer hover:bg-neutral-200 active:bg-white select-none">
-              Suarakan pendapatmu disini...
-            </div>
-          </button>
-        </div>
+        {isAdmin && (
+          <div className="w-full flex gap-3 items-center bg-white p-5 min-w-[200px] text shadow-md rounded-[12px] text-neutral-900">
+            <div className="size-[44px] flex-shrink-0 bg-gradient-to-br from-blue-500 to bg-purple-400 rounded-full" />
+            <button className="relative w-full h-full" onClick={() => setIsModalOpen(true)}>
+              <div className="outline outline-1 outline-neutral-300 w-full py-1 px-4 rounded-full text-neutral-600 h-full flex items-center transition duration-200 cursor-pointer hover:bg-neutral-200 active:bg-white select-none">
+              Suarakan RUU disini...
+              </div>
+            </button>
+          </div>
+        )}
         {loading && (
           <>
             <div className="w-full h-[200px] bg-neutral-400 animate-pulse rounded-[12px]" />
@@ -116,6 +120,7 @@ export default function Home() {
               _id={thread._id}
               userId={userId}
               poster={thread.poster}
+              isAdmin={isAdmin}
               title={thread.title}
               content={thread.content}
               createdAt={thread.createdAt}

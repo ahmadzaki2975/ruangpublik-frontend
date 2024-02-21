@@ -14,6 +14,7 @@ interface Thread {
   parents: string[];
   title: string;
   content: string;
+  isAdmin: boolean;
   poster: {
     _id: string;
     username: string;
@@ -165,16 +166,22 @@ export default function Thread(props: Thread) {
                 {<PostDateFormat tanggalPost={props.createdAt} />}
               </h2>
             </div>
-            <div className="rounded-full w-max flex-shrink-0 bg-success-100 text-[12px] text-success-700 px-3 py-1">
+            {/* For "Akun Resmi" tag */}
+            {/* {props.isAdmin && (
+              <div className="rounded-full w-max flex-shrink-0 bg-success-100 text-[12px] text-success-700 px-3 py-1">
               Akun Resmi
-            </div>
+              </div>
+            )} */}
+            
           </div>
         </section>
 
         <section className="mt-[10px]">
           <div className="flex items-center gap-2">
             <h1 className="font-semibold text-[14.5px] md:text-[18px]">{props.title}</h1>
-            <div className="bg-neutral-300 text-[12px] px-3 rounded-[4px]">Draf</div>
+            {props.parents.length == 0 && (
+              <div className="bg-neutral-300 text-[12px] px-3 rounded-[4px]">Draf</div>
+            )}
           </div>
           <p className="font-medium mt-[5px] text-[14px] md:text-[16px] max-w-[600px]">
             {showAll ? props.content : props.content.slice(0, 25)}
@@ -184,15 +191,17 @@ export default function Thread(props: Thread) {
               </span>
             )}
           </p>
-          <div>
-            <iframe
-              src="https://drive.google.com/file/d/1jYX9Ajahy0Fu-koWgLgzYGNSJBIGtxp_/preview"
-              className="w-full mt-4"
-              width="640"
-              height="480"
-              allow="autoplay"
-            ></iframe>
-          </div>
+          {props.parents.length == 0 && (
+            <div>
+              <iframe
+                src="https://drive.google.com/file/d/1eaD8k1fai7sVW6g20SYLX5y1xL8Cn9DW/preview"
+                className="w-full mt-4"
+                width="640"
+                height="480"
+                allow="autoplay"
+              ></iframe>
+            </div>
+          )}
         </section>
 
         <section className="mt-3 flex justify-between h-[40px]">

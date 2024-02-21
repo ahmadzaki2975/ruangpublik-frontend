@@ -29,6 +29,7 @@ export default function ThreadPage() {
   const [loading, setLoading] = useState(false);
   const [thread, setThread] = useState<Thread | null>(null);
   const [userId, setUserId] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { id } = router.query;
 
@@ -42,6 +43,12 @@ export default function ThreadPage() {
         });
 
         setUserId(userResponse.data.data.id);
+        
+        // Kudu difix ini
+        setIsAdmin(userResponse.data.data.role === "admin");
+        console.log(userResponse.data.data.role === "admin");
+        //=================================================================
+
       } catch (error) {
         console.error("Error fetching thread data", error);
       }
@@ -108,6 +115,7 @@ export default function ThreadPage() {
           poster={thread.poster}
           title={thread.title}
           userId={userId}
+          isAdmin={isAdmin}
           content={thread.content}
           createdAt={thread.createdAt}
           upvotes={thread.upvotes}
